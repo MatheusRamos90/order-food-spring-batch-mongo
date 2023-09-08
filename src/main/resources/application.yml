@@ -1,0 +1,9 @@
+spring:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+  batch:
+    job:
+      enabled: false
+  data:
+    mongodb:
+      uri: "mongodb://admin:admin@localhost:27017/paymentFood"
