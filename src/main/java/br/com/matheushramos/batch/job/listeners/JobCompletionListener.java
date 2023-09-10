@@ -12,8 +12,12 @@ import java.util.Date;
 @Component
 public class JobCompletionListener extends JobExecutionListenerSupport {
 
+    private JobExecution lastJobExecution;
+
     @Override
     public void afterJob(JobExecution jobExecution) {
+        this.lastJobExecution = jobExecution;
+
         String jobId = jobExecution.getJobParameters().getString("jobId");
 
         Date start = jobExecution.getCreateTime();
@@ -30,4 +34,7 @@ public class JobCompletionListener extends JobExecutionListenerSupport {
 
     }
 
+    public JobExecution getLastJobExecution() {
+        return this.lastJobExecution;
+    }
 }

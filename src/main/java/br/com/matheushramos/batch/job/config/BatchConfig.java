@@ -10,8 +10,12 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.test.JobLauncherTestUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -20,6 +24,9 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 @Configuration
 @EnableBatchProcessing
 public class BatchConfig {
+
+    @Autowired
+    private JobLauncher jobLauncher;
 
     @Bean
     public Job job(Step step, JobCompletionListener listener, JobBuilderFactory jobBuilderFactory) {
@@ -48,5 +55,13 @@ public class BatchConfig {
     @Bean
     public ItemWriter<Order> orderItemWriter() {
         return orders -> orders.forEach(order -> log.info("Order: {}", order));
+    }
+
+    @Bean
+    public JobLauncherTestUtils jobLauncherTestUtils(JobRepository jobRepository) {
+        JobLauncherTestUtils jobLauncherTestUtils = new JobLauncherTestUtils();
+        jobLauncherTestUtils.setJobLauncher(jobLauncher);
+        jobLauncherTestUtils.setJobRepository(jobRepository);
+        return jobLauncherTestUtils;
     }
 }

@@ -28,7 +28,7 @@ public class OrderFoodReader extends MongoItemReader<Order> {
     }
 
     @Override
-    protected Iterator<Order> doPageRead() {
+    public Iterator<Order> doPageRead() {
         final var pageable = PageRequest.of(this.page, this.pageSize);
         final var skipValue = (long) pageable.getPageNumber() * (long) pageable.getPageSize();
 
