@@ -22,7 +22,7 @@ public class OrderFoodReader extends MongoItemReader<Order> {
     public OrderFoodReader(MongoTemplate mongoTemplate) {
         this.mongoTemplate = mongoTemplate;
         setTemplate(mongoTemplate);
-        setPageSize(100);
+        setPageSize(5);
         setSaveState(false);
         setTargetType(Order.class);
     }
@@ -41,7 +41,7 @@ public class OrderFoodReader extends MongoItemReader<Order> {
 
         List<Order> orders = this.mongoTemplate.find(q, Order.class);
 
-        log.info("Read orders. Total: {}", orders.size());
+        log.info("Read orders. Total: {}, Page: {}", orders.size(), pageable.getPageNumber());
 
         return orders.iterator();
     }

@@ -39,18 +39,4 @@ public class PaymentOrderJobLauncher {
 
         log.info("Stopping job...");
     }
-
-    // Executa às 10h da manhã
-//    @Scheduled(cron = "0 0 10 * * ?")
-//    @SneakyThrows
-//    public void runJobAt10AM() {
-//        jobLauncher.run(job, new JobParameters());
-//    }
-
-    // Executa às 23h da noite
-//    @SneakyThrows
-//    @Scheduled(cron = "0 0 23 * * ?")
-//    public void runJobAt11PM() {
-//        jobLauncher.run(job, new JobParameters());
-//    }
 }

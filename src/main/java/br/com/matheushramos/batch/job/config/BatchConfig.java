@@ -10,6 +10,7 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.repository.JobRepository;
@@ -40,13 +41,14 @@ public class BatchConfig {
 
     @Bean
     public Step step(OrderFoodReader orderItemReader, ItemWriter<Order> orderItemWriter, StepBuilderFactory stepBuilderFactory) {
-        return stepBuilderFactory.get("step").<Order, Order>chunk(10)
+        return stepBuilderFactory.get("step").<Order, Order>chunk(5)
                 .reader(orderItemReader)
                 .writer(orderItemWriter)
                 .build();
     }
 
     @Bean
+    @StepScope
     @SneakyThrows
     public OrderFoodReader orderItemReader(MongoTemplate mongoTemplate) {
         return new OrderFoodReader(mongoTemplate);
